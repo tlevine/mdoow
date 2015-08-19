@@ -25,14 +25,14 @@ request.send();
 source.start(0);
 
 
-
-    var ws = new WebSocket("%s")
-    ws.onmessage = function(msg) {
-      var msgDiv = document.createElement("pre");
-      alert(msg.data)
-    }
-    function sendInput() {
-      var input = document.getElementById("input");
-      ws.send(input.value);
-      input.value = "";
-    }
+module.exports = function(ws) {
+  ws.onmessage = function(msg) {
+    var msgDiv = document.createElement("pre");
+    alert(msg.data)
+  }
+  function sendInput() {
+    var input = document.getElementById("input");
+    ws.send(input.value);
+    input.value = "";
+  }
+}
