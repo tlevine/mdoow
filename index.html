@@ -9,6 +9,7 @@ source.start();
 */
 
 
+var audioCtx = new AudioContext();
 source = audioCtx.createBufferSource();
 request = new XMLHttpRequest();
 request.open('GET', 'music.wav', true);
@@ -22,4 +23,5 @@ request.onload = function() {
   })
 }
 request.send();
+source.start(0);
 </script>
