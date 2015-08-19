@@ -8,24 +8,7 @@ app <- list(
       headers = list(
         'Content-Type' = 'text/html'
       ),
-      body = sprintf('
-<html>
-<script>
-var ws = new WebSocket("%s")
-ws.onmessage = function(msg) {
-  var msgDiv = document.createElement("pre");
-  alert(msg.data)
-}
-function sendInput() {
-  var input = document.getElementById("input");
-  ws.send(input.value);
-  input.value = "";
-}
-</script>
-<h3>Send Message</h3>
-<form action="" onsubmit="sendInput(); return false">
-<input type="text" id="input"/>
-</html>', wsUrl)
+      body = 
     )
   },
   onWSOpen = function(ws) {

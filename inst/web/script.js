@@ -1,4 +1,3 @@
-<script>
 /*
 var audioCtx = new AudioContext();
 var buffer = audioCtx.createBuffer(2, 22050, 44100);
@@ -24,4 +23,16 @@ request.onload = function() {
 }
 request.send();
 source.start(0);
-</script>
+
+
+
+    var ws = new WebSocket("%s")
+    ws.onmessage = function(msg) {
+      var msgDiv = document.createElement("pre");
+      alert(msg.data)
+    }
+    function sendInput() {
+      var input = document.getElementById("input");
+      ws.send(input.value);
+      input.value = "";
+    }
