@@ -15,4 +15,5 @@ mdoow <- function(loops, samp.rate = 44100,
     on.exit(stopServer(env$server))
   }
   env$ws$send(as.wave(colSums(loops), samp.rate))
+  service(900 * nrow(loops) / samp.rate) # Wait almost a full loop
 }
