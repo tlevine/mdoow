@@ -1,9 +1,6 @@
 library(httpuv)
 
-state <- new.env()
-state$rendered.score <- 0 # Put a wave file with a second of silence here.
-
-app <- list(
+app <- function(state) list(
   call = function(req) {
     wsUrl = paste0("ws://", ifelse(is.null(req$HTTP_HOST), req$SERVER_NAME, req$HTTP_HOST))
     list(
@@ -15,21 +12,6 @@ app <- list(
     )
   },
   onWSOpen = function(ws) {
-    ws$onMessage(function(binary, message) {
-      ws$send(state$rendered.score)
-    })
+    state$ws <- ws
   }
 )
-
-host <- '0.0.0.0'
-port <- 9454
-
-server <- startServer(host, port, app)
-on.exit(stopServer(server))
-
-
-# .globals$stopped <- FALSE
-# while (!.globals$stopped) {
-#     service(100)
-#     Sys.sleep(0.001)
-# }
