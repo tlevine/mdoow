@@ -1,6 +1,6 @@
 deps <- c('httpuv', 'tuneR')
 for (dep in deps) {
-  library(dep, character.only = TRUE)
+  suppressMessages(library(dep, character.only = TRUE))
   unloadNamespace(dep)
 }
 
@@ -8,7 +8,7 @@ for (dep in deps) {
 #'
 #' @param loops data.frame of numeric vectors with values between -1 and 1
 mdoow <- function(loops, samp.rate = 44100,
-                  host = '0.0.0.0', port = 8888
+                  host = '0.0.0.0', port = 8888,
                   env = new.env()) {
   if (!('server' %in% names(env))) {
     env$server <- startServer(host, port, app(env))
