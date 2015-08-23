@@ -1,9 +1,3 @@
-# .globals$stopped <- FALSE
-# while (!.globals$stopped) {
-#     service(100)
-#     Sys.sleep(0.001)
-# }
-
 #' Push a new set of loops to the player.
 #'
 #' @param loops data.frame of numeric vectors with values between -1 and 1
