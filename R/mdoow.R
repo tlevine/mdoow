@@ -14,8 +14,11 @@ mdoow <- function(loops, samp.rate = 44100,
     env$server <- httpuv::startServer(host, port, app(env))
     on.exit(httpuv::stopServer(env$server))
   }
- #env$ws$send(as.wave(colSums(loops), samp.rate))
-  httpuv::service(max(500, 900 * nrow(loops) / samp.rate)) # Wait almost a full loop
+  env$ws$send(as.wave(colSums(loops), samp.rate))
+
+  # Wait almost a full loop
+  end.time <- Sys.time() + 0.9 * nrow(loops) / samp.rate
+  while (Sys.time() < end.time) service()
 }
 
 
