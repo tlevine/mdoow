@@ -11,11 +11,11 @@ mdoow <- function(loops, samp.rate = 44100,
                   host = '0.0.0.0', port = 8888,
                   env = new.env()) {
   if (!('server' %in% names(env))) {
-    env$server <- startServer(host, port, app(env))
-    on.exit(stopServer(env$server))
+    env$server <- httpuv::startServer(host, port, app(env))
+    on.exit(httpuv::stopServer(env$server))
   }
-  env$ws$send(as.wave(colSums(loops), samp.rate))
-  service(900 * nrow(loops) / samp.rate) # Wait almost a full loop
+ #env$ws$send(as.wave(colSums(loops), samp.rate))
+  httpuv::service(max(500, 900 * nrow(loops) / samp.rate)) # Wait almost a full loop
 }
 
 
@@ -38,17 +38,19 @@ as.wave <- function(sound, samp.rate) {
 #' @param state An environment
 #' @returns list See httpuv::startServer
 app <- function(state) list(
-  call = function(req) {
-    wsUrl = paste0("ws://", ifelse(is.null(req$HTTP_HOST), req$SERVER_NAME, req$HTTP_HOST))
-    list(
-      status = 200L,
-      headers = list(
-        'Content-Type' = 'text/plain'
-      ),
-      body = wsUrl
-    )
-  },
+  call = http.call,
   onWSOpen = function(ws) {
     state$ws <- ws
   }
 )
+
+http.call <- function(req) {
+  wsUrl = paste0("ws://", ifelse(is.null(req$HTTP_HOST), req$SERVER_NAME, req$HTTP_HOST))
+  list(
+    status = 200L,
+    headers = list(
+      'Content-Type' = 'text/plain'
+    ),
+    body = wsUrl
+  )
+}
