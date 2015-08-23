@@ -13,7 +13,9 @@ wave <- function(left = numeric(0), right = numeric(0),
 as.wave <- function(sound, filename, samp.rate = SECOND) {
   raw.wave <- tuneR::Wave(sound, numeric(0), samp.rate = samp.rate, bit = 16)
   normalized.wave <- tuneR::normalize(w, unit = '16')
+  filename <- tempfile(fileext = '.wav')
   tuneR::writeWave(w, filename)
+  unlink(filename)
 }
 
 
