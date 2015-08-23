@@ -1,4 +1,8 @@
-library(httpuv)
+deps <- c('httpuv', 'tuneR')
+for (dep in deps) {
+  library(dep, character.only = TRUE)
+  unloadNamespace(dep)
+}
 
 #' Push a new set of loops to the player.
 #'
