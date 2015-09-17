@@ -4,17 +4,30 @@ for (dep in deps) {
   unloadNamespace(dep)
 }
 
+#' Generate an app specification for httpuv
+#'
+#' @param state An environment
+#' @returns list See httpuv::startServer
+app <- function(state) list(
+  call = http.call,
+  onWSOpen = function(ws) {
+    state$ws <- ws
+  }
+)
+
+#' State of the app is stored here.
+mdoow.env <- new.env()
+
 #' Push a new set of loops to the player.
 #'
 #' @param loops data.frame of numeric vectors with values between -1 and 1
 mdoow <- function(loops, samp.rate = 44100,
-                  host = '0.0.0.0', port = 8888,
-                  env = new.env()) {
-  if (!('server' %in% names(env))) {
-    env$server <- httpuv::startServer(host, port, app(env))
-    on.exit(httpuv::stopServer(env$server))
+                  host = '0.0.0.0', port = 9888) {
+  if (!('server' %in% names(mdoow.env))) {
+    mdoow.env$server <- httpuv::startServer(host, port, app(mdoow.env))
+    on.exit(httpuv::stopServer(mdoow.env$server))
   }
-  env$ws$send(as.wave(colSums(loops), samp.rate))
+  mdoow.env$ws$send(as.wave(colSums(loops), samp.rate))
 
   # Wait almost a full loop
   end.time <- Sys.time() + 0.9 * nrow(loops) / samp.rate
@@ -35,17 +48,6 @@ as.wave <- function(sound, samp.rate) {
   unlink(filename)
   wave.raw
 }
-
-#' Generate an app specification for httpuv
-#'
-#' @param state An environment
-#' @returns list See httpuv::startServer
-app <- function(state) list(
-  call = http.call,
-  onWSOpen = function(ws) {
-    state$ws <- ws
-  }
-)
 
 http.call <- function(req) {
   wsUrl = paste0("ws://", ifelse(is.null(req$HTTP_HOST), req$SERVER_NAME, req$HTTP_HOST))
