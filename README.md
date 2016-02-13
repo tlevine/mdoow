@@ -17,6 +17,7 @@ Plot two histograms on top of each other, but with lines instead of bars.
 
 Do the same in sound, with x as radius, left/right as positive/negative, and y
 as pitch (in a Western scale). See if it is easier to hear differences.
+Scale it so z(0) is the same note as 0 (higher octave though).
 
 Other sound variables
 
