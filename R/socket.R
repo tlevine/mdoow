@@ -15,14 +15,10 @@ app <- function(state) list(
   }
 )
 
-#' State of the app is stored here.
-mdoow.env <- new.env()
-
 #' Push a new set of loops to the player.
 #'
 #' @param loops data.frame of numeric vectors with values between -1 and 1
-mdoow.push <- function(loops, samp.rate = 44100,
-                       host = '0.0.0.0', port = 9888) {
+mdoow.push <- function(mdoow.env, loops, samp.rate, host, port) {
   if (!('server' %in% names(mdoow.env))) {
     mdoow.env$server <- httpuv::startServer(host, port, app(mdoow.env))
     on.exit(httpuv::stopServer(mdoow.env$server))
