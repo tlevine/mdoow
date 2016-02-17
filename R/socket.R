@@ -1,8 +1,5 @@
-deps <- c('httpuv', 'tuneR')
-for (dep in deps) {
-  suppressMessages(library(dep, character.only = TRUE))
-  unloadNamespace(dep)
-}
+library(httpuv)
+library(tuneR)
 
 #' Generate an app specification for httpuv
 #'

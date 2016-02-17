@@ -8,6 +8,8 @@ source.start();
 */
 
 
+
+/*
 var audioCtx = new AudioContext();
 source = audioCtx.createBufferSource();
 request = new XMLHttpRequest();
@@ -30,3 +32,15 @@ module.exports = function(ws) {
     alert(msg.data)
   }
 }
+*/
+
+HTMLWidgets.widget({
+  name: "mdoow",
+  type: "output",
+  initialize: function(el, width, height) {
+    return {}
+  },
+  renderValue: function(el, x, instance) {
+    console.log('render')
+  }
+})
