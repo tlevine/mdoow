@@ -67,3 +67,9 @@ http.call <- function(req) {
     body = wsUrl
   )
 }
+
+mdoow <- function(x, samp.rate = 44100, host = '0.0.0.0', port = 9888) {
+  mdoow.env <- new.env()
+  browseURL('inst/index.html', 'firefox')
+  function(loops) mdoow.push(mdoow.env, loops, samp.rate, host, port)
+}
