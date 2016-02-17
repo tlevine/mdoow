@@ -7,7 +7,7 @@ for (dep in deps) {
 #' Generate an app specification for httpuv
 #'
 #' @param state An environment
-#' @returns list See httpuv::startServer
+#' @return list See httpuv::startServer
 app <- function(state) list(
   call = http.call,
   onWSOpen = function(ws) {
@@ -46,7 +46,7 @@ mdoow.push <- function(mdoow.env, loops, samp.rate, host, port) {
 #' Convert a numeric vector into a wave file.
 #'
 #' @param sound Numeric vector of speaker positions, with range of -1 to 1
-#' @returns raw of the file
+#' @return raw of the file
 as.wave <- function(sound, samp.rate) {
   wave.numeric <- tuneR::Wave(sound, numeric(0), samp.rate = samp.rate, bit = 16) * 32767
   filename <- tempfile(fileext = '.wav')
