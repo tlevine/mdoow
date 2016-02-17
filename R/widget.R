@@ -3,11 +3,8 @@
 #' @import htmlwidgets
 
 mdoow <- function(x, samp.rate = 44100, host = '0.0.0.0', port = 9888) {
-
-  #' State of the app is stored here.
   mdoow.env <- new.env()
-
-  htmlwidgets::createWidget('mdoow', wsUrl) 
+  browseURL('inst/index.html', 'firefox')
   function(loops) mdoow.push(mdoow.env, loops, samp.rate, host, port)
 }
 
