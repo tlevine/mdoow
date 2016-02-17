@@ -27,11 +27,23 @@ mdoow <- function(loops, samp.rate = 44100,
     mdoow.env$server <- httpuv::startServer(host, port, app(mdoow.env))
     on.exit(httpuv::stopServer(mdoow.env$server))
   }
-  mdoow.env$ws$send(as.wave(colSums(loops), samp.rate))
+  if (is.data.frame(loops)) {
+    n <- nrow(loops)
+    vec <- colSums(loops)
+  } else {
+    n <- length(loops)
+    vec <- loops
+  }
+  
+  if ('ws' %in% names(mdoow.env)) {
+    mdoow.env$ws$send(as.wave(vec, samp.rate))
 
-  # Wait almost a full loop
-  end.time <- Sys.time() + 0.9 * nrow(loops) / samp.rate
-  while (Sys.time() < end.time) service()
+    # Wait almost a full loop
+    end.time <- Sys.time() + 0.9 * n / samp.rate
+    while (Sys.time() < end.time) service()
+  } else {
+    warning('Socket is not open, so we are not sending data.')
+  }
 }
 
 
